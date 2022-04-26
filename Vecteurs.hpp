@@ -26,33 +26,33 @@ public:
     }
 
     //Mutator Functions
-    void def_vecteur(double x, double y);
+    void def_vecteur(double a, double b);
 
     //Scalar functions scale a vector by a float
     void ajout_vecteur(const Vecteur& v);
-    void ajout_scalaire(double x);
+    void ajout_scalaire(double s);
 
-    void subVector(const Pvector& v);
-    Vecteurs subTwoVector(const Pvector& v, const Pvector& v2);
-    void subScalar(double x);
+    void soust_vecteur(const Vecteur& v);
+    Vecteur diff_vecteurs(const Vecteur& v, const Vecteur& v2);
+    void sous_scalaire(double s);
 
-    void mulVector(const Pvector& v);
-    void mulScalar(double x);
+    void mult_vecteur(const Vecteur& v);
+    void mult_scalaire(double s);
 
-    void divVector(const Pvector& v);
-    void divScalar(double x);
+    void div_vecteur(const Vecteur& v);
+    void div_scalaire(double s);
 
-    void limit(double max);
+    void limite(double max);
 
     //Calculating Functions
-    float distance(const Pvector& v);
-    float dotProduct(const Pvector& v);
-    float magnitude();
+    float distance(const Vecteur& v);
+    float prod_scal(const Vecteur& v);
+    float norme();
     void setMagnitude(double x);
-    float angleBetween(const Pvector& v);
-    void normalize();
+    float angle(const Vecteur& v);
+    void normaliser();
 
-    Pvector copy(const Pvector& v);
+    Vecteur copy(const Vecteur& v);
 };
 
 #endif
