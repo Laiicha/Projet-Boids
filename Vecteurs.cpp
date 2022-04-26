@@ -1,5 +1,5 @@
 #include <math.h>
-#include "Pvector.h"
+#include "Vecteur.hpp"
 
 // =================================================== //
 // ======== Pvector Functions from Pvector.h ========= //
@@ -8,75 +8,75 @@
 #define PI 3.141592635
 
 // Sets values of x and y for Pvector
-void Pvector::set(float i, float o)
+void Vecteur::def_vecteur(double a, double b)
 {
-    x = i;
-    y = o;
+    x = a;
+    y = b;
 }
 
-void Pvector::addVector(const Pvector& v)
+void Vecteur::ajout_vecteur(const Vecteur& v)
 {
-    x += v.x;
-    y += v.y;
+    x = x + v.x;
+    y = y + v.y;
 }
 
 // Adds to a Pvector by a constant number
-void Pvector::addScalar(float s)
+void Vecteur::ajout_scalaire(double s)
 {
     x += s;
     y += s;
 }
 
 // Subtracts 2 vectors
-void Pvector::subVector(const Pvector& v)
+void Vecteur::soust_vecteur(const Vecteur& v)
 {
     x -= v.x;
     y -= v.y;
 }
 
 // Subtracts two vectors and returns the difference as a vector
-Pvector Pvector::subTwoVector(const Pvector& v, const Pvector& v2)
+Vecteur Vecteur::diff_vecteurs(const Vecteur& v, const Vecteur& v2)
 {
-    Pvector tmp(v.x - v2.x, v.y - v2.y);
+    Vecteur tmp(v.x - v2.x, v.y - v2.y);
     return std::move(tmp);
 }
 
 // Adds to a Pvector by a constant number
-void Pvector::subScalar(float s)
+void Vecteur::sous_scalaire(double s)
 {
     x -= s;
     y -= s;
 }
 
 // Multiplies 2 vectors
-void Pvector::mulVector(const Pvector& v)
+void Vecteur::mult_vecteur(const Vecteur& v)
 {
     x *= v.x;
     y *= v.y;
 }
 
 // Adds to a Pvector by a constant number
-void Pvector::mulScalar(float s)
+void Vecteur::mult_scalaire(double s);
 {
     x *= s;
     y *= s;
 }
 
 // Divides 2 vectors
-void Pvector::divVector(const Pvector& v)
+void Vecteur::div_vecteur(const Vecteur& v)
 {
     x /= v.x;
     y /= v.y;
 }
 
 // Adds to a Pvector by a constant number
-void Pvector::divScalar(float s)
+void Vecteur::div_scalaire(double s);
 {
     x /= s;
     y /= s;
 }
 
-void Pvector::limit(double max)
+void Vecteur::limit(double max)
 {
     double size = magnitude();
 
@@ -86,35 +86,35 @@ void Pvector::limit(double max)
 }
 
 // Calculates the distance between the first Pvector and second Pvector
-float Pvector::distance(const Pvector& v)
+float Vecteur::distance(const Vecteur& v)
 {
-    float dx = x - v.x;
-    float dy = y - v.y;
-    float dist = sqrt(dx*dx + dy*dy);
+    double dx = x - v.x;
+    double dy = y - v.y;
+    double dist = sqrt(dx*dx + dy*dy);
     return dist;
 }
 
 // Calculates the dot product of a vector
-float Pvector::dotProduct(const Pvector& v)
+double Vecteur::prod_scal(const Vecteur& v)
 {
-    float dot = x * v.x + y * v.y;
-    return dot;
+    double prod = x * v.x + y * v.y;
+    return prod;
 }
 
 // Calculates magnitude of referenced object
-float Pvector::magnitude()
+double Vecteur::norme()
 {
     return sqrt(x*x + y*y);
 }
 
-void Pvector::setMagnitude(float x)
+void Vecteur::setMagnitude(double x)
 {
     normalize();
     mulScalar(x);
 }
 
 // Calculate the angle between Pvector 1 and Pvector 2
-float Pvector::angleBetween(const Pvector& v)
+double Vecteur::angle(const Vecteur& v)
 {
     if (x == 0 && y == 0) return 0.0f;
     if (v.x == 0 && v.y == 0) return 0.0f;
@@ -129,14 +129,14 @@ float Pvector::angleBetween(const Pvector& v)
     } else if (amt >= 1) {
         return 0;
     }
-    float tmp = acos(amt);
+    double tmp = acos(amt);
     return tmp;
 }
 
 // normalize divides x and y by magnitude if it has a magnitude.
-void Pvector::normalize()
+void Vecteur::normaliser()
 {
-    float m = magnitude();
+    double m = magnitude();
 
     if (m > 0) {
         set(x / m, y / m);
@@ -146,8 +146,8 @@ void Pvector::normalize()
 }
 
 // Creates and returns a copy of the Pvector used as a parameter
-Pvector Pvector::copy(const Pvector& v)
+Vecteur Vecteur::copy(const Vecteur& v)
 {
-    Pvector copy(v.x, v.y);
+    Vecteur copy(v.x, v.y);
     return copy;
 }
