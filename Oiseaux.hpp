@@ -12,7 +12,7 @@ public:
   Vecteurs vitesse;
   Vecteurs acceleration;
   float vitesse_max;
-  Oiseaux
+
 }
 class Proies
 {
