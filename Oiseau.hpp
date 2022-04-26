@@ -18,7 +18,7 @@ public:
   void flock(const vector<Oiseau>& v);
   void borders();
   double angle(const Vecteur& v);
-}
+};
 class Proie : public Oiseau
 {
 public:
@@ -27,11 +27,12 @@ public:
   Vecteur Cohesion(const Vecteur<Proie>& Proie);	
 	Vecteur Dispersion(const Vecteur<Proie>& Proie);
 	Vecteur Total(const Vecteur<Proie>& Proie);
-}
+};
 class Predateur : public Oiseau
 {
 public:
   Vecteur Attraction(const Vecteur<Predateur>& Predateur);
 	Vecteur Repulsion(const Vecteur<Predateur>& Predateur);
-}
+};
 
+#endif
