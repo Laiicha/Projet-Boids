@@ -45,11 +45,11 @@ public:
     void limite(double max);
 
     //Calculating Functions
-    float distance(const Vecteur& v);
-    float prod_scal(const Vecteur& v);
-    float norme();
+    double distance(const Vecteur& v);
+    double prod_scal(const Vecteur& v);
+    double norme();
     void setMagnitude(double x);
-    float angle(const Vecteur& v);
+    double angle(const Vecteur& v);
     void normaliser();
 
     Vecteur copy(const Vecteur& v);
