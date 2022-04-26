@@ -30,17 +30,17 @@ public:
 
     //Scalar functions scale a vector by a float
     void ajout_vecteur(const Vecteur& v);
-    void ajout_scalaire(float x);
+    void ajout_scalaire(double x);
 
     void subVector(const Pvector& v);
     Vecteurs subTwoVector(const Pvector& v, const Pvector& v2);
     void subScalar(double x);
 
     void mulVector(const Pvector& v);
-    void mulScalar(float x);
+    void mulScalar(double x);
 
     void divVector(const Pvector& v);
-    void divScalar(float x);
+    void divScalar(double x);
 
     void limit(double max);
 
@@ -48,7 +48,7 @@ public:
     float distance(const Pvector& v);
     float dotProduct(const Pvector& v);
     float magnitude();
-    void setMagnitude(float x);
+    void setMagnitude(double x);
     float angleBetween(const Pvector& v);
     void normalize();
 
