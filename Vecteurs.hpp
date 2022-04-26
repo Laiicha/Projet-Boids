@@ -13,24 +13,24 @@ using namespace std;
 class Vecteur {
 
 public:
-    float x;
-    float y;
+    double x;
+    double y;
 
     //Constructors
     Vecteur() {}
 
-    Vecteur(float x1, float y1)
+    Vecteur(double x1, double y1)
     {
         x = x1;
         y = y1;
     }
 
     //Mutator Functions
-    void set(float x, float y);
+    void def_vecteur(double x, double y);
 
     //Scalar functions scale a vector by a float
-    void sommeVecteurs(const Vecteur& v);
-    void ajouterScalaire(float x);
+    void ajout_vecteur(const Vecteur& v);
+    void ajout_scalaire(float x);
 
     void subVector(const Pvector& v);
     Vecteurs subTwoVector(const Pvector& v, const Pvector& v2);
