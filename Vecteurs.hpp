@@ -34,7 +34,7 @@ public:
 
     void subVector(const Pvector& v);
     Vecteurs subTwoVector(const Pvector& v, const Pvector& v2);
-    void subScalar(float x);
+    void subScalar(double x);
 
     void mulVector(const Pvector& v);
     void mulScalar(float x);
