@@ -12,6 +12,7 @@ public:
   Vecteur vitesse;
   Vecteur acceleration;
   double vitesse_max;
+	
 	Vecteur seek(const Vecteur& v);
   void run(const vector<Oiseau>& v);
   void update();
