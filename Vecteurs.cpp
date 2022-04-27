@@ -23,15 +23,15 @@ void Vecteur::ajout_vecteur(const Vecteur& v)
 // Adds to a Pvector by a constant number
 void Vecteur::ajout_scalaire(double s)
 {
-    x += s;
-    y += s;
+    x = x + s;
+    y = y + s;
 }
 
 // Subtracts 2 vectors
 void Vecteur::soust_vecteur(const Vecteur& v)
 {
-    x -= v.x;
-    y -= v.y;
+    x = x - v.x;
+    y = y - v.y;
 }
 
 // Subtracts two vectors and returns the difference as a vector
@@ -44,44 +44,44 @@ Vecteur Vecteur::diff_vecteurs(const Vecteur& v, const Vecteur& v2)
 // Adds to a Pvector by a constant number
 void Vecteur::sous_scalaire(double s)
 {
-    x -= s;
-    y -= s;
+    x = x - s;
+    y = y - s;
 }
 
 // Multiplies 2 vectors
 void Vecteur::mult_vecteur(const Vecteur& v)
 {
-    x *= v.x;
-    y *= v.y;
+    x = x * v.x;
+    y = y * v.y;
 }
 
 // Adds to a Pvector by a constant number
 void Vecteur::mult_scalaire(double s);
 {
-    x *= s;
-    y *= s;
+    x = x * s;
+    y = y * s;
 }
 
 // Divides 2 vectors
 void Vecteur::div_vecteur(const Vecteur& v)
 {
-    x /= v.x;
-    y /= v.y;
+    x = x/v.x;
+    y = y/v.y;
 }
 
 // Adds to a Pvector by a constant number
 void Vecteur::div_scalaire(double s);
 {
-    x /= s;
-    y /= s;
+    x = x/s;
+    y = y/s;
 }
 
-void Vecteur::limit(double max)
+void Vecteur::limite(double max)
 {
-    double size = magnitude();
+    double s = norme();
 
-    if (size > max) {
-        set(x / size, y / size);
+    if (s > max) {
+        set(x / s, y / s);
     }
 }
 
@@ -107,7 +107,7 @@ double Vecteur::norme()
     return sqrt(x*x + y*y);
 }
 
-void Vecteur::setMagnitude(double x)
+void Vecteur::set_norme(double x)
 {
     normalize();
     mulScalar(x);
@@ -116,8 +116,8 @@ void Vecteur::setMagnitude(double x)
 // Calculate the angle between Pvector 1 and Pvector 2
 double Vecteur::angle(const Vecteur& v)
 {
-    if (x == 0 && y == 0) return 0.0f;
-    if (v.x == 0 && v.y == 0) return 0.0f;
+    if (x == 0 && y == 0) return 0.0;
+    if (v.x == 0 && v.y == 0) return 0.0;
 
     double dot = x * v.x + y * v.y;
     double v1mag = sqrt(x * x + y * y);
