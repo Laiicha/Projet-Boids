@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <math.h>
-#include <cstdlib>
+#include <stdlib.h>
 #include "SFML/Graphics.hpp"
 #include "Oiseau.hpp"
 
