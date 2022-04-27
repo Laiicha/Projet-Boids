@@ -30,9 +30,9 @@ Oiseau::Oiseau()
 
 
 // Adds force Pvector to current force Pvector
-void Oiseau::applyForce(const Pvector& force)
+void Oiseau::appl_force(const Vecteur& force)
 {
-    acceleration.addVector(force);
+    acceleration.ajout_vecteur(force);
 }
 
 // Alignment
@@ -40,30 +40,31 @@ void Oiseau::applyForce(const Pvector& force)
 // manipulates the velocity of the current boid in order to match it
 Vecteur Proie::Alignement(const vector<Proie>& Proies)
 {
+    force_max = 0.05;
     double da = 25; // Field of vision
 
     Vecteur somme(0, 0);
     int compt = 0;
     for (int i = 0; i < Proies.size(); i++) {
         float d = position.distance(Proies[i].position);
-        if ((d > 0) && (d < neighbordist)) { // 0 < d < 50
+        if ((d > 0) && (d < da)) { // 0 < d < 50
             somme.ajout_vecteur(Proies[i].vitesse);
             compt++;
         }
     }
     // If there are boids close enough for alignment...
-    if (count > 0) {
-        sum.div_scalaire((double)count);// Divide sum by the number of close boids (average of velocity)
-        sum.normaliser();            // Turn sum into a unit vector, and
-        sum.mult_scalaire(vitesse_max);    // Multiply by maxSpeed
+    if (compt > 0) {
+        somme.div_scalaire((double)compt);// Divide sum by the number of close boids (average of velocity)
+        somme.normaliser();            // Turn sum into a unit vector, and
+        somme.mult_scalaire(vitesse_max);    // Multiply by maxSpeed
         // Steer = Desired - Velocity
-        Vecteur steer;
-        steer = steer.diff_vecteurs(sum, velocity); //sum = desired(average)
-        steer.limite(maxForce);
-        return steer;
+        Vecteur s;
+        s = s.diff_vecteurs(somme, vitesse); //sum = desired(average)
+        s.limite(force_max);
+        return s;
     } 
     else {
-        Pvector temp(0, 0);
+        Vecteur temp(0, 0);
         return temp;
     }
 }
@@ -72,35 +73,36 @@ Vecteur Proie::Alignement(const vector<Proie>& Proies)
 // Keeps boids from getting too close to one another
 Vecteur Proie::Separation(const vector<Proie>& Proies)
 {
-    double ds = 20
+    force_max = 0.05;
+    double ds = 20.;
     // Distance of field of vision for separation between boids
-    Vecteur steer(0, 0);
-    int count = 0;
+    Vecteur s(0, 0);
+    int compt = 0;
     // For every boid in the system, check if it's too close
     for (int i = 0; i < Proies.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
         float d = position.distance(Proies[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < ds)) {
-            Vecteurr diff(0,0);
-            diff = diff.diff_vecteurs(location, Proies[i].position);
+            Vecteur diff(0,0);
+            diff = diff.diff_vecteurs(position, Proies[i].position);
             diff.normaliser();
             diff.div_scalaire(d);      // Weight by distance
             steer.ajout_vecteur(diff);
-            count++;
+            compt++;
         }
     }
     // Adds average difference of location to acceleration
-    if (count > 0)
-        steer.divScalar((float)count);
-    if (steer.magnitude() > 0) {
+    if (compt > 0)
+        s.div_scalaire((double)compt);
+    if (s.norme() > 0) {
         // Steering = Desired - Velocity
-        steer.normalize();
-        steer.mulScalar(maxSpeed);
-        steer.subVector(velocity);
-        steer.limit(maxForce);
+        s.normalize();
+        s.mult_scalaire(vitesse_max);
+        s.sous_vecteur(vitesse);
+        s.limite(force_max);
     }
-    return steer;
+    return s;
 }
 
 
@@ -111,18 +113,18 @@ Vecteur Proie::Separation(const vector<Proie>& Proies)
 Vecteur Proie::Cohesion(const vector<Proie>& Proies)
 {
     double da = 25;
-    Vecteur sum(0, 0);
-    int count = 0;
+    Vecteur somme(0, 0);
+    int compt = 0;
     for (int i = 0; i < Proies.size(); i++) {
         double d = position.distance(Proies[i].position);
         if ((d > 0) && (d < da)) {
-            sum.ajout_vecteur(Proies[i].position);
-            count++;
+            somme.ajout_vecteur(Proies[i].position);
+            compt++;
         }
     }
-    if (count > 0) {
-        sum.div_scalaire(count);
-        return seek(sum);
+    if (compt > 0) {
+        somme.div_scalaire(compt);
+        return seek(somme);
     } else {
         Vecteur temp(0,0);
         return temp;
@@ -133,45 +135,46 @@ Vecteur Proie::Cohesion(const vector<Proie>& Proies)
 // Keeps boids from getting too close to one another
 Vecteur Proie::Dispersion(const vector<Proie>& Predateurs)
 {
-    double da = 25
+    double da = 25;
+    force_max = 0.05; 
     // Distance of field of vision for separation between boids
-    Vecteur diff(0, 0);
-    int count = 0;
+    Vecteur s(0, 0);
+    int compt = 0;
     // For every boid in the system, check if it's too close
     for (int i = 0; i < Predateurs.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
         float d = position.distance(Predateurs[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < ds)) {
-            Vecteurr diff(0,0);
-            diff = diff.diff_vecteurs(location, Predateurs[i].position);
+            Vecteur diff(0,0);
+            diff = diff.diff_vecteurs(position, Predateurs[i].position);
             diff.normaliser();
             diff.div_scalaire(d*d);      // Weight by distance
-            steer.ajout_vecteur(diff);
-            count++;
+            s.ajout_vecteur(diff);
+            compt++;
         }
     }
     // Adds average difference of location to acceleration
-    if (count > 0)
-        diff.divScalar((float)count);
-    if (diff.magnitude() > 0) {
+    if (compt > 0)
+        s.div_scalaire((double)compt);
+    if (s.norme() > 0) {
         // Steering = Desired - Velocity
-        diff.normalize();
-        diff.mulScalar(maxSpeed);
-        diff.subVector(velocity);
-        diff.limit(maxForce);
+        s.normaliser();
+        s.mult_scalaire(vitesse_max);
+        s.sous_vecteur(vitesse);
+        s.limite(force_max);
     }
-    return diff;
+    return s;
 }
 
 // Totale
 // Keeps boids from getting too close to one another
-Vecteur Proie::Total(const vector<Proie>& Proies)
+Vecteur Proie::Total(const vector<Proie>& Proies, const vector<Predateur>& Predateurs)
 {
   Vecteur steer(0, 0);
   Vecteur Fa = Alignement(Proies)
   Vecteur Fs = Separation(Proies)
-  Vecteur Fd = Dispersion(Proies)
+  Vecteur Fd = Dispersion(Predateurs)
   Fs =  Fs.mult_scalaire(0.75);
   Fd =  Fd.mult_scalaire(0.75);
   Vecteur Fc = Cohesion(Proies)
@@ -184,72 +187,74 @@ Vecteur Proie::Total(const vector<Proie>& Proies)
 
 
 //Attraction
-Vecteur Predateur::Dispersion(const vector<Proie>& Proies)
+Vecteur Predateur::Attraction(const vector<Proie>& Proies)
 {
     double da = 25
+    force_max = 0.05;
     // Distance of field of vision for separation between boids
-    Vecteur diff(0, 0);
-    int count = 0;
+    Vecteur s(0, 0);
+    int compt = 0;
     // For every boid in the system, check if it's too close
     for (int i = 0; i < Proies.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
         float d = position.distance(Proies[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < ds)) {
-            Vecteurr diff(0,0);
+            Vecteur diff(0,0);
             diff = diff.diff_vecteurs(location, Proies[i].position);
             diff.normaliser();
             diff.div_scalaire(d*d);      // Weight by distance
-            steer.ajout_vecteur(diff);
-            count++;
+            s.ajout_vecteur(diff);
+            compt++;
         }
     }
     // Adds average difference of location to acceleration
-    if (count > 0)
-        diff.divScalar((float)count);
-    if (diff.magnitude() > 0) {
+    if (compt > 0)
+        s.divScalar((double)compt);
+    if (.magnitude() > 0) {
         // Steering = Desired - Velocity
-        diff.normalize();
-        diff.mulScalar(maxSpeed);
-        diff.subVector(velocity);
-        diff.limit(maxForce);
+        s.normaliser();
+        s.mult_scalaire(vitesse_max);
+        s.sous_vecteur(vitesse);
+        s.limite(force_max);
     }
-    return diff;
+    return s;
 }
 
 // Repulsion
 // Keeps boids from getting too close to one another
-Vecteur Predateur::Separation(const vector<Proie>& Predateurs)
+Vecteur Predateur::Repulsion(const vector<Proie>& Predateurs)
 {
-    double ds = 20
+    double ds = 20;
+    force_max = 0.05;
     // Distance of field of vision for separation between boids
-    Vecteur steer(0, 0);
-    int count = 0;
+    Vecteur s(0, 0);
+    int compt = 0;
     // For every boid in the system, check if it's too close
     for (int i = 0; i < Predateurs.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
         float d = position.distance(Predateurs[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < ds)) {
-            Vecteurr diff(0,0);
+            Vecteur diff(0,0);
             diff = diff.diff_vecteurs(location, Predateurs[i].position);
             diff.normaliser();
             diff.div_scalaire(d);      // Weight by distance
-            steer.ajout_vecteur(diff);
-            count++;
+            s.ajout_vecteur(diff);
+            compt++;
         }
     }
     // Adds average difference of location to acceleration
-    if (count > 0)
-        steer.divScalar((float)count);
-    if (steer.magnitude() > 0) {
+    if (compt > 0)
+        s.div_scalaire((double)compt);
+    if (s.norme() > 0) {
         // Steering = Desired - Velocity
-        steer.normalize();
-        steer.mulScalar(maxSpeed);
-        steer.subVector(velocity);
-        steer.limit(maxForce);
+        s.normaliser();
+        s.mult_scalaire(vitesse_max);
+        s.sous_vecteur(vitesse);
+        s.limite(force_max);
     }
-    return steer;
+    return s;
 }
 
 // Limits the maxSpeed, finds necessary steering force and
@@ -274,12 +279,12 @@ void Boid::update()
     //To make the slow down not as abrupt
     acceleration = Totale;
     // Update velocity
-    velocity.addVector(acceleration);
+    vitesse.ajout_vecteur(acceleration);
     // Limit speed
-    velocity.limit(maxSpeed);
-    location.addVector(velocity);
+    vitesse.limite(vitesse_max);
+    location.ajout_vecteur(vitesse);
     // Reset accelertion to 0 each cycle
-    acceleration.mulScalar(0);
+    //acceleration.mulScalar(0);
 }
 
 // Run flock() on the flock of boids.
@@ -296,16 +301,16 @@ void Boid::run(const vector <Boid>& v)
 void Oiseau::flock(const vector<Boid>& v)
 {
     Pvector sep = Separation(v);
-    Pvector ali = Alignment(v);
+    Pvector ali = Alignement(v);
     Pvector coh = Cohesion(v);
     // Arbitrarily weight these forces
     sep.mulScalar(1.5);
     ali.mulScalar(1.0); // Might need to alter weights for different characteristics
     coh.mulScalar(1.0);
     // Add the force vectors to acceleration
-    applyForce(sep);
-    applyForce(ali);
-    applyForce(coh);
+    appl_force(sep);
+    appl_force(ali);
+    appl_force(coh);
 }
 
 // Checks if boids go out of the window and if so, wraps them around to
