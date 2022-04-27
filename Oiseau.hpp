@@ -12,12 +12,14 @@ public:
 	Vecteur position;  
 	Vecteur vitesse;  
 	Vecteur acceleration;
-	double vitesse_max;	
+	double vitesse_max;
+	Oiseau() {}
+	void appl_force(const Vecteur& force);
 	Vecteur seek(const Vecteur& v);  
 	void run(const vector<Oiseau>& v);  
 	void update();  
-	void flock(const vector<Oiseau>& v);  
-	void borders();  
+	void nuee(const vector<Oiseau>& v);  
+	void bords();  
 	double angle(const Vecteur& v);
 };
 
