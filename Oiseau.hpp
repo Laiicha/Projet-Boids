@@ -20,20 +20,22 @@ public:
 	void borders();  
 	double angle(const Vecteur& v);
 };
+
 class Proie : public Oiseau
 {
 public:
-	Vecteur Alignement(const Vecteur<Proie>& Proie);
-	Vecteur Separation(const Vecteur<Proie>& Proie);
-	Vecteur Cohesion(const Vecteur<Proie>& Proie);	
-	Vecteur Dispersion(const Vecteur<Proie>& Proie);
-	Vecteur Total(const Vecteur<Proie>& Proie);
+	Vecteur Alignement(const vector<Proie>& Proies);
+	Vecteur Separation(const vector<Proie>& Proies);
+	Vecteur Cohesion(const vector<Proie>& Proies);	
+	Vecteur Dispersion(const vector<Proie>& Proies);
+	Vecteur Total(const vector<Proie>& Proies);
 };
+
 class Predateur : public Oiseau
 {
 public:
-	Vecteur Attraction(const Vecteur<Predateur>& Predateur);
-	Vecteur Repulsion(const Vecteur<Predateur>& Predateur);
+	Vecteur Attraction(const vector<Predateur>& Predateurs);
+	Vecteur Repulsion(const vector<Predateur>& Predateurs);
 };
 
 #endif
