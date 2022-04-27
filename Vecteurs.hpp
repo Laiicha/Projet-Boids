@@ -48,7 +48,7 @@ public:
     double distance(const Vecteur& v);
     double prod_scal(const Vecteur& v);
     double norme();
-    void setMagnitude(double x);
+    void set_norme(double x);
     double angle(const Vecteur& v);
     void normaliser();
 
