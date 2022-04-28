@@ -136,6 +136,7 @@ Vecteur Boid::Separation(const vector<Boid>& Boids)
 }
 
 
+
 // Cohesion
 // Finds the average location of nearby boids and manipulates the
 // steering force to move in that direction.
