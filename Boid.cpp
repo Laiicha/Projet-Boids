@@ -20,7 +20,7 @@ const int window_width = desktopTemp.width;
 // ======== Boid Functions from Boid.h =========== //
 // =============================================== //
 
-Oiseau::Oiseau()
+Boid::Boid()
 {
     acceleration = Vecteur(0, 0);
     vitesse = Vecteur(-1 + (double)((double)rand()*3 / (RAND_MAX-1)), -1 + (double)((double)rand()*3 / (RAND_MAX-1)));
