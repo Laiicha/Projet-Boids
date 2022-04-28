@@ -45,6 +45,7 @@ public:
 	void bords();  
 	double angle(const Vecteur& v);
 
+	
     Vecteur Alignement(const vector<Boid>& Boids);
 	Vecteur Separation(const vector<Boid>& Boids);
     Vecteur Cohesion(const vector<Boid>& Boids);
