@@ -1,9 +1,7 @@
 #include "Oiseau.hpp"
 #include "Nuee.hpp"
 
-// =============================================== //
-// ======== Flock Functions from Flock.h ========= //
-// =============================================== //
+//definition des fonctions de Nuee
 
 int Nuee::taille()
 {
