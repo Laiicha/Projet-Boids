@@ -1,4 +1,4 @@
-#include "Oiseau.hpp"
+#include "Boid.hpp"
 #include "Nuee.hpp"
 
 //definition des fonctions de Nuee
@@ -9,13 +9,13 @@ int Nuee::taille()
 }
 
 //Read only method that returns a copy of the Boid.
-Boid Nuee::getOiseau(int i)
+Boid Nuee::get_boid(int i)
 {
     return nuee[i];
 }
 
 
-void Nuee::ajout_oiseau(const Oiseau& b)
+void Nuee::ajout_boid(const Boid& b)
 {
     nuee.push_back(std::move(b));
 }
