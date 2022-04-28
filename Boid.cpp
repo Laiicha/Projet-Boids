@@ -4,7 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "SFML/Graphics.hpp"
-#include "Oiseau.hpp"
+#include "Boid.hpp"
 
 // Global Variables for borders()
 // desktopTemp gets screen resolution of PC running the program
