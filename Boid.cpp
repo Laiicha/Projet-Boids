@@ -51,6 +51,60 @@ void Boid::appl_force(const Vecteur& force)
     acceleration.ajout_vecteur(force);
 }
 
+// Separation
+// Keeps boids from getting too close to one another
+Pvector Boid::Separation(const vector<Boid>& boids)
+{
+    // Distance of field of vision for separation between boids
+    float desiredseparation = 20;
+    Pvector steer(0, 0);
+    int count = 0;
+    // For every boid in the system, check if it's too close
+    for (int i = 0; i < boids.size(); i++) {
+        // Calculate distance from current boid to boid we're looking at
+        float d = location.distance(boids[i].location);
+        // If this is a fellow boid and it's too close, move away from it
+        if ((d > 0) && (d < desiredseparation)) {
+            Pvector diff(0,0);
+            diff = diff.subTwoVector(location, boids[i].location);
+            diff.normalize();
+            diff.divScalar(d);      // Weight by distance
+            steer.addVector(diff);
+            count++;
+        }
+        // If current boid is a predator and the boid we're looking at is also
+        // a predator, then separate only slightly
+        if ((d > 0) && (d < desiredseparation) && predator == true
+            && boids[i].predator == true) {
+            Pvector pred2pred(0, 0);
+            pred2pred = pred2pred.subTwoVector(location, boids[i].location);
+            pred2pred.normalize();
+            pred2pred.divScalar(d);
+            steer.addVector(pred2pred);
+            count++;
+        }
+        // If current boid is not a predator, but the boid we're looking at is
+        // a predator, then create a large separation Pvector
+        else if ((d > 0) && (d < desiredseparation+70) && boids[i].predator == true) {
+            Pvector pred(0, 0);
+            pred = pred.subTwoVector(location, boids[i].location);
+            pred.mulScalar(900);
+            steer.addVector(pred);
+            count++;
+        }
+    }
+    // Adds average difference of location to acceleration
+    if (count > 0)
+        steer.divScalar((float)count);
+    if (steer.magnitude() > 0) {
+        // Steering = Desired - Velocity
+        steer.normalize();
+        steer.mulScalar(maxSpeed);
+        steer.subVector(velocity);
+        steer.limit(maxForce);
+    }
+    return steer;
+}
 // Alignment
 // Calculates the average velocity of boids in the field of vision and
 // manipulates the velocity of the current boid in order to match it
