@@ -66,42 +66,42 @@ Pvector Boid::Separation(const vector<Boid>& boids)
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < desiredseparation)) {
             Vecteur diff(0,0);
-            diff = diff.subTwoVector(location, boids[i].location);
+            diff = diff.soust_vecteur(location, boids[i].location);
             diff.normalise();
-            diff.divScalar(d);      // Weight by distance
-            steer.addVector(diff);
+            diff.div_scalaire(d);      // Weight by distance
+            steer.ajout_vecteur(diff);
             count++;
         }
         // If current boid is a predator and the boid we're looking at is also
         // a predator, then separate only slightly
-        if ((d > 0) && (d < desiredseparation) && predator == true
-            && boids[i].predator == true) {
-            Pvector pred2pred(0, 0);
-            pred2pred = pred2pred.subTwoVector(location, boids[i].location);
-            pred2pred.normalize();
-            pred2pred.divScalar(d);
-            steer.addVector(pred2pred);
+        if ((d > 0) && (d < desiredseparation) && predateur == true
+            && boids[i].predateur == true) {
+            Vecteur pred2pred(0, 0);
+            pred2pred = pred2pred.soust_vecteur(location, boids[i].location);
+            pred2pred.normalise();
+            pred2pred.div_scalaire(d);
+            steer.ajout_vecteur(pred2pred);
             count++;
         }
         // If current boid is not a predator, but the boid we're looking at is
         // a predator, then create a large separation Pvector
         else if ((d > 0) && (d < desiredseparation+70) && boids[i].predator == true) {
-            Pvector pred(0, 0);
-            pred = pred.subTwoVector(location, boids[i].location);
-            pred.mulScalar(900);
-            steer.addVector(pred);
+            Vecteur pred(0, 0);
+            pred = pred.soust_vecteur(location, boids[i].location);
+            pred.mult_scalaire(900);
+            steer.ajout_vecteur(pred);
             count++;
         }
     }
     // Adds average difference of location to acceleration
     if (count > 0)
-        steer.divScalar((float)count);
-    if (steer.magnitude() > 0) {
+        steer.div_scalaire((float)count);
+    if (steer.norme() > 0) {
         // Steering = Desired - Velocity
-        steer.normalize();
-        steer.mulScalar(maxSpeed);
-        steer.subVector(velocity);
-        steer.limit(maxForce);
+        steer.normalise();
+        steer.mult_scalaire(vitesse_max);
+        steer.sous_scalaire(acceleration);
+        steer.limite(force_max);
     }
     return steer;
 }
