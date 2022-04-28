@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "Oiseau.h"
+#include "Boid.hpp"
 
 #ifndef NUEE_H_
 #define NUEE_H_
@@ -18,12 +18,12 @@ public:
     // Accessor functions
     int taille();
     //Read only and read/write methods.
-    Oiseau getoiseau(int i);
+    Boid get_boid(int i);
     // Mutator Functions
-    void ajout_oiseau(const Oiseau& b);
+    void ajout_boid(const Boid& b);
     void flocking();
 private:
-    vector<Oiseau> nuee;  
+    vector<Boid> nuee;  
 };
 
 #endif
