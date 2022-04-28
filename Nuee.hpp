@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
-#include "Boid.h"
+#include "Oiseau.h"
 
-#ifndef FLOCK_H_
-#define FLOCK_H_
+#ifndef NUEE_H_
+#define NUEE_H_
 
 
 // Brief description of Flock Class:
@@ -11,19 +11,19 @@
 // the boids class and initializes boid flocks with parameters that can be
 // specified. This class will be utilized in main.
 
-class Flock {
+class Nuee{
 public:
     //Constructors
-    Flock() {}
+    Nuee() {}
     // Accessor functions
-    int getSize();
+    int taille();
     //Read only and read/write methods.
-    Boid getBoid(int i);
+    Oiseau getoiseau(int i);
     // Mutator Functions
-    void addBoid(const Boid& b);
+    void ajout_oiseau(const Oiseau& b);
     void flocking();
 private:
-    vector<Boid> flock;  
+    vector<Oiseau> nuee;  
 };
 
 #endif
