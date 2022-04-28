@@ -1,9 +1,7 @@
 #include <math.h>
 #include "Vecteur.hpp"
 
-// =================================================== //
-// ======== Pvector Functions from Pvector.h ========= //
-// =================================================== //
+//defintion des fonctions de vecteur
 
 #define PI 3.141592635
 
@@ -13,6 +11,8 @@ void Vecteur::def_vecteur(double a, double b)
     x = a;
     y = b;
 }
+
+// additionner deux vecteurs
 
 void Vecteur::ajout_vecteur(const Vecteur& v)
 {
