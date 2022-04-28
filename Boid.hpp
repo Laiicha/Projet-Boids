@@ -35,6 +35,7 @@ public:
 	Vecteur vitesse;  
 	Vecteur acceleration;
 	double vitesse_max;
+	double force_max;
 	Boid() {}
 	Boid(bool pred);
 	void appl_force(const Vecteur& force);
@@ -44,11 +45,10 @@ public:
 	void nuee(const vector<Boid>& v);  
 	void bords();  
 	double angle(const Vecteur& v);
-
 	
-    Vecteur Alignement(const vector<Boid>& Boids);
+	Vecteur Alignement(const vector<Boid>& Boids);
 	Vecteur Separation(const vector<Boid>& Boids);
-    Vecteur Cohesion(const vector<Boid>& Boids);
+	Vecteur Cohesion(const vector<Boid>& Boids);
 	Vecteur Dispersion(const vector<Boid>& Boids);
 	Vecteur Attraction(const vector<Boid>& Boids);
 	Vecteur Repulsion(const vector<Boid>& Boids);
