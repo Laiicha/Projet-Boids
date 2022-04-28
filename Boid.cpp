@@ -22,12 +22,12 @@ const int window_width = desktopTemp.width;
 
 Boid::Boid(double x, double y)
 {
-    acceleration = Vecteur(0, 0);
-    vitesse = Vecteur(-1 + (double)((double)rand()*3 / (RAND_MAX-1)), -1 + (double)((double)rand()*3 / (RAND_MAX-1)));
-    position = Vecteur(-1 + (double)((double)rand()*3 / (RAND_MAX-1)), -1 + (double)((double)rand()*3 / (RAND_MAX-1)));
-    vitesse_max = 2;
-    force_max = 0.05;
-    force_max=0.05;
+	acceleration = Vecteur(0, 0);
+	vitesse = Vecteur(-1 + (double)((double)rand()*3 / (RAND_MAX-1)), -1 + (double)((double)rand()*3 / (RAND_MAX-1)));
+	position = Vecteur(-1 + (double)((double)rand()*3 / (RAND_MAX-1)), -1 + (double)((double)rand()*3 / (RAND_MAX-1)));
+	vitesse_max = 2;
+	force_max = 0.05;
+	force_max=0.05;
 }
 
 
@@ -84,8 +84,8 @@ Vecteur Boid::Alignement(const vector<Boid>& Boids)
     	} 
     	else {
         	Vecteur temp(0, 0);
-        	return temp;
-    	}
+			return temp;
+		}
 	}
 	else{
 		Vecteur temp(0, 0);
