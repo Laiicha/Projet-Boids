@@ -51,59 +51,7 @@ void Boid::appl_force(const Vecteur& force)
     acceleration.ajout_vecteur(force);
 }
 
-// Separation
-// Keeps boids from getting too close to one another
-Pvector Boid::Separation(const vector<Boid>& boids)
-{
-    // Distance of field of vision for separation between boids
-    float desiredseparation = 20;
-    Vecteur steer(0, 0);
-    int count = 0;
-    // For every boid in the system, check if it's too close
-    for (int i = 0; i < boids.size(); i++) {
-        // Calculate distance from current boid to boid we're looking at
-        float d = position.distance(boids[i].position);
-        // If this is a fellow boid and it's too close, move away from it
-        if ((d > 0) && (d < desiredseparation)) {
-            Vecteur diff(0,0);
-            diff = diff.soust_vecteur(location, boids[i].location);
-            diff.normalise();
-            diff.div_scalaire(d);      // Weight by distance
-            steer.ajout_vecteur(diff);
-            count++;
-        }
-        // If current boid is a predator and the boid we're looking at is also
-        // a predator, then separate only slightly
-        if ((d > 0) && (d < desiredseparation) && predateur == true
-            && boids[i].predateur == true) {
-            Vecteur pred2pred(0, 0);
-            pred2pred = pred2pred.soust_vecteur(location, boids[i].location);
-            pred2pred.normalise();
-            pred2pred.div_scalaire(d);
-            steer.ajout_vecteur(pred2pred);
-            count++;
-        }
-        // If current boid is not a predator, but the boid we're looking at is
-        // a predator, then create a large separation Pvector
-        else if ((d > 0) && (d < desiredseparation+70) && boids[i].predator == true) {
-            Vecteur pred(0, 0);
-            pred = pred.soust_vecteur(location, boids[i].location);
-            pred.mult_scalaire(900);
-            steer.ajout_vecteur(pred);
-            count++;
-        }
-    }
-    // Adds average difference of location to acceleration
-    if (count > 0)
-        steer.div_scalaire((float)count);
-    if (steer.norme() > 0) {
-        // Steering = Desired - Velocity
-        steer.normalise();
-        steer.mult_scalaire(vitesse_max);
-        steer.sous_scalaire(acceleration);
-        steer.limite(force_max);
-    }
-    return steer;
+
 }
 // Alignment
 // Calculates the average velocity of boids in the field of vision and
@@ -238,15 +186,15 @@ Vecteur Proie::Dispersion(const vector<Proie>& Predateurs)
 
 // Totale
 // Keeps boids from getting too close to one another
-Vecteur Proie::Total(const vector<Proie>& Proies, const vector<Predateur>& Predateurs)
+Vecteur Boid::Total(const vector<Proie>& Boids, const vecteur<Boid>& Boids)
 {
   Vecteur steer(0, 0);
-  Vecteur Fa = Alignement(Proies)
-  Vecteur Fs = Separation(Proies)
-  Vecteur Fd = Dispersion(Predateurs)
+  Vecteur Fa = Alignement(Boids)
+  Vecteur Fs = Separation(Boids)
+  Vecteur Fd = Dispersion(Boids)
   Fs =  Fs.mult_scalaire(0.75);
   Fd =  Fd.mult_scalaire(0.75);
-  Vecteur Fc = Cohesion(Proies)
+  Vecteur Fc = Cohesion(Boids)
   steer.ajout_vecteur(Fa);
   steer.ajout_vecteur(Fc);
   steer.ajout_vecteur(Fs);
