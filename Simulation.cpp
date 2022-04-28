@@ -1,13 +1,13 @@
 #include <iostream>
-#include "Flock.h"
-#include "Boid.h"
-#include "Pvector.h"
-#include "Game.h"
+#include "Nuee.hpp"
+#include "Boid.hpp"
+#include "Vecteur.hpp"
+#include "Simulation.h"
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 
 // Construct window using SFML
-Game::Game()
+Simulation::Simulation()
 {
     this->boidsSize = 3.0;
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
@@ -88,7 +88,7 @@ void Game::HandleInput()
     }
 }
 
-void Game::Render()
+void Simulation::Render()
 {
     window.clear();
 
