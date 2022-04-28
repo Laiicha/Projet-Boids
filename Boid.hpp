@@ -37,7 +37,8 @@ public:
 	double vitesse_max;
 	double force_max;
 	Boid() {}
-	Boid(bool pred);
+	Boid(double x, double y);
+	Boid(double x, double y, bool pred);
 	void appl_force(const Vecteur& force);
 	Vecteur seek(const Vecteur& v);  
 	void run(const vector<Boid>& v);  
