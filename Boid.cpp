@@ -65,9 +65,9 @@ Pvector Boid::Separation(const vector<Boid>& boids)
         float d = position.distance(boids[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < desiredseparation)) {
-            Pvector diff(0,0);
+            Vecteur diff(0,0);
             diff = diff.subTwoVector(location, boids[i].location);
-            diff.normalize();
+            diff.normalise();
             diff.divScalar(d);      // Weight by distance
             steer.addVector(diff);
             count++;
