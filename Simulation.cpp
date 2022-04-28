@@ -21,9 +21,9 @@ Simulation::Simulation()
 
 // Run the simulation. Run creates the boids that we'll display, checks for user
 // input, and updates the view
-void Game::Run()
+void Game::Run(int nbre_predateurs, int nbre_proies)
 {
-    for (int i = 0; i < 250; i++) {
+    for (int i = 0; i < nbre_predateurs+nbre_proies; i++) {
        // Boid b(largeur_fenetre/3,longueur_fenetre/3); // Starts all boids in the center of the screen
         Boid b();
         sf::CircleShape shape(8, 3);
@@ -81,7 +81,7 @@ void simulation::HandleInput()
         shape.setRadius(taille_boid);
 
         // Adds newly created boid and shape to their respective data structure
-        nuee.addBoid(b);
+        nuee.ajout_boid(b);
         forme.push_back(shape);
 
         // New Shape is drawn
