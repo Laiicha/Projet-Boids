@@ -26,11 +26,27 @@ Boid::Boid()
     vitesse = Vecteur(-1 + (double)((double)rand()*3 / (RAND_MAX-1)), -1 + (double)((double)rand()*3 / (RAND_MAX-1)));
     position = Vecteur(-1 + (double)((double)rand()*3 / (RAND_MAX-1)), -1 + (double)((double)rand()*3 / (RAND_MAX-1)));
     vitesse_max = 2;
+    force_max=0.05;
 }
 
 
+Boid::Boid(float x, float y, bool predCheck)
+{
+    predateur = predCheck;
+    if (predCheck == true) {
+        vitesse_max = 7.5;
+        force_max = 0.5;
+        vitesse = Vecteur(rand()%3 - 1, rand()%3 - 1);
+    } else {
+        vitesse_max = 3.5;
+        force_max = 0.5;
+        vitesse = Vecteur(rand()%3 - 2, rand()%3 - 2);
+    }
+    acceleration = Vecteur(0, 0);
+    position  = Vecteur(x, y);
+}
 // Adds force Pvector to current force Pvector
-void Oiseau::appl_force(const Vecteur& force)
+void Boid::appl_force(const Vecteur& force)
 {
     acceleration.ajout_vecteur(force);
 }
@@ -38,17 +54,17 @@ void Oiseau::appl_force(const Vecteur& force)
 // Alignment
 // Calculates the average velocity of boids in the field of vision and
 // manipulates the velocity of the current boid in order to match it
-Vecteur Proie::Alignement(const vector<Proie>& Proies)
+Vecteur Boid::Alignement(const vector<Boid>& Boids)
 {
     force_max = 0.05;
     double da = 25; // Field of vision
 
     Vecteur somme(0, 0);
     int compt = 0;
-    for (int i = 0; i < Proies.size(); i++) {
-        float d = position.distance(Proies[i].position);
+    for (int i = 0; i < Boids.size(); i++) {
+        float d = position.distance(Boids[i].position);
         if ((d > 0) && (d < da)) { // 0 < d < 50
-            somme.ajout_vecteur(Proies[i].vitesse);
+            somme.ajout_vecteur(Boids[i].vitesse);
             compt++;
         }
     }
@@ -71,21 +87,20 @@ Vecteur Proie::Alignement(const vector<Proie>& Proies)
 
 // Separation
 // Keeps boids from getting too close to one another
-Vecteur Proie::Separation(const vector<Proie>& Proies)
+Vecteur Boid::Separation(const vector<Proie>& Proies)
 {
-    force_max = 0.05;
     double ds = 20.;
     // Distance of field of vision for separation between boids
     Vecteur s(0, 0);
     int compt = 0;
     // For every boid in the system, check if it's too close
-    for (int i = 0; i < Proies.size(); i++) {
+    for (int i = 0; i < Boids.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
-        float d = position.distance(Proies[i].position);
+        float d = position.distance(Boids[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < ds)) {
             Vecteur diff(0,0);
-            diff = diff.diff_vecteurs(position, Proies[i].position);
+            diff = diff.diff_vecteurs(position, Boids[i].position);
             diff.normaliser();
             diff.div_scalaire(d);      // Weight by distance
             steer.ajout_vecteur(diff);
