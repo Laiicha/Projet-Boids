@@ -127,15 +127,15 @@ Vecteur Boid::Separation(const vector<Proie>& Proies)
 // Cohesion
 // Finds the average location of nearby boids and manipulates the
 // steering force to move in that direction.
-Vecteur Proie::Cohesion(const vector<Proie>& Proies)
+Vecteur Boid::Cohesion(const vector<Boid>& Boids)
 {
     double da = 25;
     Vecteur somme(0, 0);
     int compt = 0;
-    for (int i = 0; i < Proies.size(); i++) {
-        double d = position.distance(Proies[i].position);
+    for (int i = 0; i < Boids.size(); i++) {
+        double d = position.distance(Boids[i].position);
         if ((d > 0) && (d < da)) {
-            somme.ajout_vecteur(Proies[i].position);
+            somme.ajout_vecteur(Boids[i].position);
             compt++;
         }
     }
@@ -150,7 +150,7 @@ Vecteur Proie::Cohesion(const vector<Proie>& Proies)
 
 // Dispersion
 // Keeps boids from getting too close to one another
-Vecteur Proie::Dispersion(const vector<Proie>& Predateurs)
+Vecteur Boid::Dispersion(const vector<Boid>& Boids)
 {
     double da = 25;
     force_max = 0.05; 
@@ -158,13 +158,13 @@ Vecteur Proie::Dispersion(const vector<Proie>& Predateurs)
     Vecteur s(0, 0);
     int compt = 0;
     // For every boid in the system, check if it's too close
-    for (int i = 0; i < Predateurs.size(); i++) {
+    for (int i = 0; i < Boids.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
-        float d = position.distance(Predateurs[i].position);
+        float d = position.distance(Boids[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < ds)) {
             Vecteur diff(0,0);
-            diff = diff.diff_vecteurs(position, Predateurs[i].position);
+            diff = diff.diff_vecteurs(position, Boids[i].position);
             diff.normaliser();
             diff.div_scalaire(d*d);      // Weight by distance
             s.ajout_vecteur(diff);
@@ -204,7 +204,7 @@ Vecteur Boid::Total(const vector<Proie>& Boids, const vecteur<Boid>& Boids)
 
 
 //Attraction
-Vecteur Predateur::Attraction(const vector<Proie>& Proies)
+Vecteur Boid::Attraction(const vector<Boid>& Boids)
 {
     double da = 25
     force_max = 0.05;
@@ -212,13 +212,13 @@ Vecteur Predateur::Attraction(const vector<Proie>& Proies)
     Vecteur s(0, 0);
     int compt = 0;
     // For every boid in the system, check if it's too close
-    for (int i = 0; i < Proies.size(); i++) {
+    for (int i = 0; i < Boids.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
-        float d = position.distance(Proies[i].position);
+        float d = position.distance(Boids[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < ds)) {
             Vecteur diff(0,0);
-            diff = diff.diff_vecteurs(location, Proies[i].position);
+            diff = diff.diff_vecteurs(location, Boids[i].position);
             diff.normaliser();
             diff.div_scalaire(d*d);      // Weight by distance
             s.ajout_vecteur(diff);
@@ -240,7 +240,7 @@ Vecteur Predateur::Attraction(const vector<Proie>& Proies)
 
 // Repulsion
 // Keeps boids from getting too close to one another
-Vecteur Predateur::Repulsion(const vector<Proie>& Predateurs)
+Vecteur Boid::Repulsion(const vector<Boid>& Boids)
 {
     double ds = 20;
     force_max = 0.05;
@@ -248,13 +248,13 @@ Vecteur Predateur::Repulsion(const vector<Proie>& Predateurs)
     Vecteur s(0, 0);
     int compt = 0;
     // For every boid in the system, check if it's too close
-    for (int i = 0; i < Predateurs.size(); i++) {
+    for (int i = 0; i < Boids.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
-        float d = position.distance(Predateurs[i].position);
+        float d = position.distance(Boids[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < ds)) {
             Vecteur diff(0,0);
-            diff = diff.diff_vecteurs(location, Predateurs[i].position);
+            diff = diff.diff_vecteurs(location, Boids[i].position);
             diff.normaliser();
             diff.div_scalaire(d);      // Weight by distance
             s.ajout_vecteur(diff);
@@ -309,13 +309,13 @@ void Boid::update()
 // and corrects boids which are sitting outside of the SFML window
 void Boid::run(const vector <Boid>& v)
 {
-    flock(v);
+    Nuee(v);
     update();
     borders();
 }
 
 // Applies the three laws to the flock of boids
-void Oiseau::flock(const vector<Boid>& v)
+void Oiseau::Nuee(const vector<Boid>& v)
 {
     Pvector sep = Separation(v);
     Pvector ali = Alignement(v);
