@@ -371,9 +371,9 @@ void Boid::nuee(const vector<Boid>& v)
     Vecteur sep = Separation(v);
     Vecteurr ali = Alignement(v);
     Vecteur coh = Cohesion(v);
-	Vecteur dis = Dispersion;
-	Vecteur att = Attraction;
-	Vecteur rep = Repulsion;
+	Vecteur dis = Dispersion(v);
+	Vecteur att = Attraction(v);
+	Vecteur rep = Repulsion(v);
     // Arbitrarily weight these forces
     sep.mulScalar(1.0);
     ali.mulScalar(1.0); // Might need to alter weights for different characteristics
