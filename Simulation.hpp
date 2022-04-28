@@ -27,7 +27,7 @@ private:
 
 public:
     simulation();
-    void Run();
+    void Run(int nbre_predateurs, int nbre_proies);
 };
 
 #endif
