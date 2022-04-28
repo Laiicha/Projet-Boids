@@ -57,12 +57,12 @@ Pvector Boid::Separation(const vector<Boid>& boids)
 {
     // Distance of field of vision for separation between boids
     float desiredseparation = 20;
-    Pvector steer(0, 0);
+    Vecteur steer(0, 0);
     int count = 0;
     // For every boid in the system, check if it's too close
     for (int i = 0; i < boids.size(); i++) {
         // Calculate distance from current boid to boid we're looking at
-        float d = location.distance(boids[i].location);
+        float d = position.distance(boids[i].position);
         // If this is a fellow boid and it's too close, move away from it
         if ((d > 0) && (d < desiredseparation)) {
             Pvector diff(0,0);
