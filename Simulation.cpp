@@ -23,9 +23,27 @@ Simulation::Simulation()
 // input, and updates the view
 void Game::Run(int nbre_predateurs, int nbre_proies)
 {
-    for (int i = 0; i < nbre_predateurs+nbre_proies; i++) {
+    for (int i = 0; i < nbre_predateurs; i++) {
        // Boid b(largeur_fenetre/3,longueur_fenetre/3); // Starts all boids in the center of the screen
-        Boid b();
+        Boid b(largeur_fenetre/3, longueur_fenetre/3, true);
+        sf::CircleShape shape(8, 3);
+
+        // Changing the Visual Properties of the shape
+        // shape.setPosition(b.location.x, b.location.y); // Sets position of shape to random location that boid was set to.
+        shape.setPosition(largeur_fenetre, longueur_fenetre); // Testing purposes, starts all shapes in the center of screen.
+        shape.setOutlineColor(sf::Color(0,255,0));
+        shape.setFillColor(sf::Color::Green);
+        shape.setOutlineColor(sf::Color::White);
+        shape.setOutlineThickness(1);
+        shape.setRadius(taille_boid);
+
+        // Adding the boid to the flock and adding the shapes to the vector<sf::CircleShape>
+        nuee.ajout_boid(b);
+        forme.push_back(shape);
+    }
+    for (int i = 0; i < nbre_proies; i++) {
+       // Boid b(largeur_fenetre/3,longueur_fenetre/3); // Starts all boids in the center of the screen
+        Boid b(largeur_fenetre/3, longueur_fenetre/3, false);
         sf::CircleShape shape(8, 3);
 
         // Changing the Visual Properties of the shape
